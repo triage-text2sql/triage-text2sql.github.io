@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRIAGE: Schema-Grounded Challenging Data Synthesis for Agentic Text-to-SQL</title>
+    <title>Targeting the Missing Supervision: From Structural Coverage Gaps to Failure-Aware Inference for Text-to-SQL</title>
     <style>
         :root {
             --bg: #ffffff;
@@ -90,26 +90,48 @@
 </head>
 <body>
     <div class="container">
-        <h1>TRIAGE: Schema-Grounded Challenging Data Synthesis to Build Failure-aware Agentic Text-to-SQL System</h1>
+        <h1>Targeting the Missing Supervision: From Structural Coverage Gaps to Failure-Aware Inference for Text-to-SQL</h1>
         <p class="venue">Under submission</p>
 
         <h2>Abstract</h2>
         <p>
-            Text-to-SQL systems remain brittle on enterprise-grade schemas, where the
-            hardest queries require traversing long chains of foreign-key joins and
-            disambiguating look-alike columns. We argue this gap stems from a data
-            bottleneck: existing training and synthesis pipelines under-represent the
-            structurally deep regions of a schema graph. We introduce <strong>SPLICE</strong>,
-            a schema-grounded method that recasts hard-data generation as coverage
-            expansion over a schema's foreign-key graph, deterministically composing
-            query semantics from verified sub-paths to produce hallucination-free,
-            path-complete examples. Building on this data, we present
-            <strong>TRIAGE</strong>, an inference-time agentic pipeline that distills a
-            compact, empirically observed taxonomy of failure modes into dedicated
-            specialist agents, reconciled by an execution-grounded merger and refined
-            through a calibrated LLM-as-judge feedback loop. Without any
-            benchmark-specific training, TRIAGE attains 74.1% execution accuracy on the
-            BIRD development set and generalizes across five Text-to-SQL benchmarks.
+            Large language models (LLMs) have substantially advanced Text-to-SQL,
+            yet they remain brittle on complex (enterprise) schemas, where errors
+            often arise from incorrect join paths, ambiguous columns, and coupled
+            relational operations. We identify a fundamental bottleneck behind
+            these failures: supervision can be plentiful while leaving important
+            regions of a target schema structurally under-covered. We address
+            this bottleneck with a unified approach that closes the loop from
+            missing structural supervision to failure-aware inference.
+        </p>
+        <p>
+            First, we formulate challenging-data synthesis as structural coverage
+            expansion over a database's foreign-key graph, we call it
+            <strong>SPLICE</strong>. It explicitly identifies under-covered schema
+            paths to generate grounded (NLQ, SQL) pairs. We then introduce
+            <strong>TRIAGE</strong>, which mines residual errors of a frontier LLM
+            model (Claude Opus 4.7) to derive an empirical failure taxonomy,
+            instantiates failure-specific specialists, and reconciles their
+            complementary candidates using execution feedback; a calibrated
+            LLM-as-a-judge enables ground-truth-SQL-free validation and targeted
+            refinement of SQL.
+        </p>
+        <p>
+            We conduct an extensive empirical evaluation across established
+            Text-to-SQL benchmarks. On BIRD data, only 750 SPLICE-generated
+            examples achieve 73.2% execution accuracy when used as few-shot
+            exemplars with Claude Opus 4.7, outperforming a size-matched subset
+            of the 2.5M-example SynSQL-2.5M corpus (72.6%). The complete TRIAGE
+            with Claude Opus 4.8 reaches 78.6% execution accuracy on the BIRD
+            development set under oracle knowledge and perfect schema
+            information, exceeding the reported BIRD leaderboard result of
+            77.77% achieved by SiriusAI-SQL. On Spider 2.0-SQLite data, TRIAGE
+            with Claude Opus 4.8 achieves 52.6% execution accuracy, outperforming
+            most baselines. These results provide evidence that where
+            supervision is missing can matter more than merely increasing
+            synthetic-data volume and that combining structural coverage
+            expansion with failure-aware agentic specialization offers a
+            complementary route to robust Text-to-SQL.
         </p>
 
         <h2>Resources</h2>
